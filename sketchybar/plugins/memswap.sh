@@ -1,7 +1,7 @@
 #!/bin/sh
 
-DEFCOLOR="0x44FFFFFF"
-ALERTCOLOR="0xAAFF0000"
+DEFCOLOR="0xffffffff"
+ALERTCOLOR="0xffffffff"
 TOTALSWAP="$(sysctl vm.swapusage | awk '{print $4}')"
 
 clr=""
