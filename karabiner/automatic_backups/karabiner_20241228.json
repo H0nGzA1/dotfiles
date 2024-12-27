@@ -2,42 +2,55 @@
     "profiles": [
         {
             "complex_modifications": {
-                "parameters": {
-                    "basic.to_delayed_action_delay_milliseconds": 200,
-                    "basic.to_if_alone_timeout_milliseconds": 300,
-                    "basic.to_if_held_down_threshold_milliseconds": 300,
-                    "mouse_motion_to_scroll.speed": 50
-                },
                 "rules": [
                     {
-                        "description": "Change single tap Caps Lock to Escape and hold for Hyper Key",
+                        "description": "Toggle CAPS_LOCK with LEFT_SHIFT + RIGHT_SHIFT",
                         "manipulators": [
                             {
                                 "from": {
                                     "key_code": "caps_lock",
-                                    "modifiers": { "optional": ["any"] }
+                                    "modifiers": {
+                                        "mandatory": ["left_shift"],
+                                        "optional": ["any"]
+                                    }
                                 },
-                                "to_if_alone": [{ "key_code": "escape" }],
-                                "to_if_held_down": [
+                                "to": [
                                     {
-                                        "key_code": "left_shift",
-                                        "modifiers": ["left_command", "left_control", "left_option"]
+                                        "key_code": "caps_lock",
+                                        "modifiers": ["left_shift"]
                                     }
                                 ],
+                                "to_if_alone": [{ "key_code": "caps_lock" }],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "caps_lock",
+                                    "modifiers": {
+                                        "mandatory": ["right_shift"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "caps_lock",
+                                        "modifiers": ["right_shift"]
+                                    }
+                                ],
+                                "to_if_alone": [{ "key_code": "caps_lock" }],
                                 "type": "basic"
                             }
                         ]
                     },
                     {
-                        "description": "Change caps lock to hyper key when held down",
+                        "description": "Change caps lock to hyper key",
                         "manipulators": [
                             {
                                 "from": {
                                     "key_code": "caps_lock",
                                     "modifiers": { "optional": ["any"] }
                                 },
-                                "to_if_alone": [{ "key_code": "escape" }],
-                                "to_if_held_down": [
+                                "to": [
                                     {
                                         "key_code": "left_shift",
                                         "modifiers": ["left_command", "left_control", "left_option"]
@@ -113,55 +126,18 @@
                         ]
                     },
                     {
-                        "description": "Change double tap right ⇧ key to caps lock",
+                        "description": "Caps Lock → Hyper Key (⌃⌥⇧⌘) (Caps Lock if alone)",
+                        "enabled": false,
                         "manipulators": [
                             {
-                                "conditions": [
-                                    {
-                                        "name": "right_shift pressed",
-                                        "type": "variable_if",
-                                        "value": 1
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "right_shift",
-                                    "modifiers": { "optional": ["any"] }
-                                },
-                                "to": [{ "key_code": "caps_lock" }],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "right_shift",
-                                    "modifiers": { "optional": ["any"] }
-                                },
+                                "from": { "key_code": "caps_lock" },
                                 "to": [
                                     {
-                                        "set_variable": {
-                                            "name": "right_shift pressed",
-                                            "value": 1
-                                        }
-                                    },
-                                    { "key_code": "right_shift" }
+                                        "key_code": "left_shift",
+                                        "modifiers": ["left_command", "left_control", "left_option"]
+                                    }
                                 ],
-                                "to_delayed_action": {
-                                    "to_if_canceled": [
-                                        {
-                                            "set_variable": {
-                                                "name": "right_shift pressed",
-                                                "value": 0
-                                            }
-                                        }
-                                    ],
-                                    "to_if_invoked": [
-                                        {
-                                            "set_variable": {
-                                                "name": "right_shift pressed",
-                                                "value": 0
-                                            }
-                                        }
-                                    ]
-                                },
+                                "to_if_alone": [{ "key_code": "caps_lock" }],
                                 "type": "basic"
                             }
                         ]
